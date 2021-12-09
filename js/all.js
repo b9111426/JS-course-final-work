@@ -23,7 +23,7 @@ function combineProductHTMLItem(item){
     return `<li class="productCard">
     <h4 class="productType">${item.category}</h4>
     <img src=${item.images} alt="">
-    <a href="#" class="addCardBtn" data-id="${item.id} ">加入購物車</a>
+    <a href="#" class="addCardBtn" data-id="${item.id}">加入購物車</a>
     <h3>${item.title}</h3>
     <del class="originPrice">NT$${item.origin_price}</del>
     <p class="nowPrice">NT$${item.price}</p>
@@ -54,13 +54,19 @@ productSelect.addEventListener('change',function(e){
 
 productList.addEventListener("click",function(e){
     e.preventDefault();
-    console.log(e.target.getAttribute("data-id"));
     let  addCartClass = e.target.getAttribute("class");
     if(addCartClass!=="addCardBtn"){
         return;
     }
     let productId = e.target.getAttribute("data-id");
-    console.log(productId)
+
+    let numCheck = 1;
+    cartData.forEach(function(item){
+        if(item.product.id === productId){
+            numCheck = item.quantity+=1;
+        };
+    })
+    console.log(numCheck);
 })
 function getCartList(){
     axios.get(`https://livejs-api.hexschool.io/api/livejs/v1/customer/${api_path}/carts`
