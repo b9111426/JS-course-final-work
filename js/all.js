@@ -2,15 +2,15 @@ const productList = document.querySelector('.productWrap');
 const productSelect = document.querySelector('.productSelect')
 let productData = [];
 let cartData = [];
-function init(){
+function init() {
     getProductList();
     getCartList();
 }
 init();
 
-function getProductList(){
-        axios.get(`https://livejs-api.hexschool.io/api/livejs/v1/customer/${api_path}/products`
-        )
+function getProductList() {
+    axios.get(`https://livejs-api.hexschool.io/api/livejs/v1/customer/${api_path}/products`
+    )
         .then(function (response) {
             productData = response.data.products;
             renderProduct()
@@ -18,8 +18,8 @@ function getProductList(){
         .catch(function (error) {
             console.log(error);
         })
-    };
-function combineProductHTMLItem(item){
+};
+function combineProductHTMLItem(item) {
     return `<li class="productCard">
     <h4 class="productType">${item.category}</h4>
     <img src=${item.images} alt="">
@@ -29,53 +29,62 @@ function combineProductHTMLItem(item){
     <p class="nowPrice">NT$${item.price}</p>
     </li>`
 }
-function renderProduct(){
+function renderProduct() {
     let str = "";
-    productData.forEach((item)=>{
-        str+= combineProductHTMLItem(item)
+    productData.forEach((item) => {
+        str += combineProductHTMLItem(item)
     })
     productList.innerHTML = str;
 };
 
-productSelect.addEventListener('change',function(e){
+productSelect.addEventListener('change', function (e) {
     const category = e.target.value
-    if(category == "全部"){
+    if (category == "全部") {
         getProductList();
         return;
     }
     let str = "";
-    productData.forEach(function(item){
-        if(item.category == category){
-            str+= combineProductHTMLItem(item);
+    productData.forEach(function (item) {
+        if (item.category == category) {
+            str += combineProductHTMLItem(item);
         }
         productList.innerHTML = str;
     })
 })
 
-productList.addEventListener("click",function(e){
+productList.addEventListener("click", function (e) {
     e.preventDefault();
-    let  addCartClass = e.target.getAttribute("class");
-    if(addCartClass!=="addCardBtn"){
+    let addCartClass = e.target.getAttribute("class");
+    if (addCartClass !== "addCardBtn") {
         return;
     }
     let productId = e.target.getAttribute("data-id");
-
     let numCheck = 1;
-    cartData.forEach(function(item){
-        if(item.product.id === productId){
-            numCheck = item.quantity+=1;
+
+    cartData.forEach(function (item) {
+        if (item.product.id === productId) {
+            numCheck = item.quantity += 1;
         };
+    });
+
+    axios.post(`https://livejs-api.hexschool.io/api/livejs/v1/customer/${api_path}/carts`, {
+        "data": {
+            "productId": productId,
+            "quantity": numCheck
+        }
+    }).then(function (response) {
+        getCartList();
     })
-    console.log(numCheck);
-})
-function getCartList(){
+});
+
+function getCartList() {
     axios.get(`https://livejs-api.hexschool.io/api/livejs/v1/customer/${api_path}/carts`
     )
-    .then(function (response) {
-        cartData = response.data.carts;
-        let str = "";
-        cartData.forEach(function(item){
-            str+=`<tr>
+        .then(function (response) {
+            cartData = response.data.carts;
+            let str = "";
+            cartData.forEach(function (item) {
+                str += `<tr>
             <td>
                 <div class="cardItem-title">
                     <img src="${item.product.images}" alt="">
@@ -84,17 +93,17 @@ function getCartList(){
             </td>
             <td>NT$${item.product.price}</td>
             <td>${item.quantity}</td>
-            <td>NT${item.product.price*item.quantity}</td>
+            <td>NT${item.product.price * item.quantity}</td>
             <td class="discardBtn">
                 <a href="#" class="material-icons">
                     clear
                 </a>
             </td>
         </tr>`
-        });
-        const cartList = document.querySelector('.shoppingCart-tableList');
-        cartList.innerHTML = str;
-    })
+            });
+            const cartList = document.querySelector('.shoppingCart-tableList');
+            cartList.innerHTML = str;
+        })
 }
 
 // if(response.data.carts==0){
