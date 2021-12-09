@@ -68,13 +68,6 @@ function getCartList(){
     .then(function (response) {
         cartData = response.data.carts;
         let str = "";
-        if(response.data.carts==0){
-            str=`<tr>
-            <td colspan="5">
-            <span class="material-icons empty-icon">production_quantity_limits</span>
-            </td>
-        </tr>`
-        }
         cartData.forEach(function(item){
             str+=`<tr>
             <td>
@@ -83,9 +76,9 @@ function getCartList(){
                     <p>${item.product.title}</p>
                 </div>
             </td>
-            <td>NT$12,000</td>
-            <td>1</td>
-            <td>NT$12,000</td>
+            <td>NT$${item.product.price}</td>
+            <td>${item.quantity}</td>
+            <td>NT${item.product.price*item.quantity}</td>
             <td class="discardBtn">
                 <a href="#" class="material-icons">
                     clear
@@ -97,3 +90,11 @@ function getCartList(){
         cartList.innerHTML = str;
     })
 }
+
+// if(response.data.carts==0){
+//     str=`<tr>
+//     <td colspan="5">
+//     <span class="material-icons empty-icon">production_quantity_limits</span>
+//     </td>
+// </tr>`
+// }
