@@ -848,3 +848,9 @@ body {
     line-height: 1.5;
     
 }
+.shoppingCart-tableList{
+    text-align: center
+}
+.shoppingCart-table th{
+    text-align: center
+}
