@@ -79,11 +79,10 @@ productList.addEventListener("click", function (e) {
 });
 //渲染購物車
 function getCartList() {
-
-
     axios.get(`https://livejs-api.hexschool.io/api/livejs/v1/customer/${api_path}/carts`
     )
         .then(function (response) {
+            document.querySelector(".js-total").textContent=response.data.finalTotal;
             cartData = response.data.carts;
             let str = "";
             if (response.data.carts == 0) {
@@ -135,6 +134,9 @@ discardAllbBtn.addEventListener("click",function(e){
     axios.delete(`https://livejs-api.hexschool.io/api/livejs/v1/customer/${api_path}/carts`)
     .then(function (reponse) {
         getCartList();
+    })
+    .catch(function(response){
+        alert("購物車已清空")
     })
 })
 
