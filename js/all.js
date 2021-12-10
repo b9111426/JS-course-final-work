@@ -82,7 +82,7 @@ function getCartList() {
     axios.get(`https://livejs-api.hexschool.io/api/livejs/v1/customer/${api_path}/carts`
     )
         .then(function (response) {
-            document.querySelector(".js-total").textContent=response.data.finalTotal;
+            document.querySelector(".js-total").textContent = response.data.finalTotal;
             cartData = response.data.carts;
             let str = "";
             if (response.data.carts == 0) {
@@ -129,22 +129,52 @@ cartList.addEventListener('click', function (e) {
 //刪除全部購物車
 const discardAllbBtn = document.querySelector(".discardAllBtn");
 
-discardAllbBtn.addEventListener("click",function(e){
+discardAllbBtn.addEventListener("click", function (e) {
     e.preventDefault();
     axios.delete(`https://livejs-api.hexschool.io/api/livejs/v1/customer/${api_path}/carts`)
-    .then(function (reponse) {
-        getCartList();
-    })
-    .catch(function(response){
-        alert("購物車已清空")
-    })
+        .then(function (reponse) {
+            getCartList();
+        })
+        .catch(function (response) {
+            alert("購物車已清空")
+        })
 })
+//送出訂單
+const orderInfoBtn = document.querySelector(".orderInfo-btn");
 
+orderInfoBtn.addEventListener("click", function (e) {
+    e.preventDefault();
+    if (cartData.length == 0) {
+        alert("購物車為空的");
+        return;
+    }
+    const customerName = document.querySelector("#customerName").value;
+    const customerPhone = document.querySelector("#customerPhone").value;
+    const customerEmail = document.querySelector("#customerEmail").value;
+    const customerAddress = document.querySelector("#customerAddress").value;
+    const tradeWay = document.querySelector("#tradeWay").value;
+    if (customerName == "" || customerPhone == "" || customerEmail == "" || customerAddress == "" || tradeWay == "") {
+        alert("請輸入訂單資訊");
+        return;
+    }
 
+    axios.post(`https://livejs-api.hexschool.io/api/livejs/v1/customer/${api_path}/orders`, {
+        "data": {
+            "user": {
+                "name": customerName,
+                "tel": customerPhone,
+                "email": customerEmail,
+                "address": customerAddress,
+                "payment": tradeWay
+            }
+        }
+    })
+        .then(function (response) {
+            alert("訂單建立成功");
+            document.querySelector(".orderInfo-form").reset();
+        })
 
-
-
-
+})
 
 
 
