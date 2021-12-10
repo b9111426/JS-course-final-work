@@ -612,6 +612,7 @@ body {
     margin: 0 auto;
     border-collapse: collapse;
     font-size: 1.25rem;
+    width: 850px;
 }
 
 .shoppingCart-table th, .shoppingCart-table td {
