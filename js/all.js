@@ -1,5 +1,6 @@
 const productList = document.querySelector('.productWrap');
 const productSelect = document.querySelector('.productSelect')
+const cartList = document.querySelector('.shoppingCart-tableList');
 let productData = [];
 let cartData = [];
 function init() {
@@ -78,11 +79,20 @@ productList.addEventListener("click", function (e) {
 });
 
 function getCartList() {
+
+
     axios.get(`https://livejs-api.hexschool.io/api/livejs/v1/customer/${api_path}/carts`
     )
         .then(function (response) {
             cartData = response.data.carts;
             let str = "";
+            if (response.data.carts == 0) {
+                str = `<tr>
+                    <td colspan="5">
+                                <span class="material-icons empty-icon">production_quantity_limits</span>
+                            </td>
+                    </tr>`
+            };
             cartData.forEach(function (item) {
                 str += `<tr>
             <td>
@@ -95,21 +105,40 @@ function getCartList() {
             <td>${item.quantity}</td>
             <td>NT${item.product.price * item.quantity}</td>
             <td class="discardBtn">
-                <a href="#" class="material-icons">
+                <a href="#" class="material-icons" data-id="${item.id}">
                     clear
                 </a>
             </td>
         </tr>`
             });
-            const cartList = document.querySelector('.shoppingCart-tableList');
             cartList.innerHTML = str;
         })
 }
 
-// if(response.data.carts==0){
-//     str=`<tr>
-//     <td colspan="5">
-//     <span class="material-icons empty-icon">production_quantity_limits</span>
-//     </td>
-// </tr>`
-// }
+cartList.addEventListener('click', function (e) {
+    e.preventDefault();
+    const cartId = e.target.getAttribute("data-id");
+    if (cartId == null) {
+        return;
+    }
+
+    axios.delete(`https://livejs-api.hexschool.io/api/livejs/v1/customer/${api_path}/carts/${cartId}`)
+        .then(function (reponse) {
+            getCartList();
+        })
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
