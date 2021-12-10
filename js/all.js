@@ -37,7 +37,7 @@ function renderProduct() {
     })
     productList.innerHTML = str;
 };
-
+//產品下拉選單
 productSelect.addEventListener('change', function (e) {
     const category = e.target.value
     if (category == "全部") {
@@ -52,7 +52,7 @@ productSelect.addEventListener('change', function (e) {
         productList.innerHTML = str;
     })
 })
-
+//點擊產品
 productList.addEventListener("click", function (e) {
     e.preventDefault();
     let addCartClass = e.target.getAttribute("class");
@@ -77,7 +77,7 @@ productList.addEventListener("click", function (e) {
         getCartList();
     })
 });
-
+//渲染購物車
 function getCartList() {
 
 
@@ -114,7 +114,7 @@ function getCartList() {
             cartList.innerHTML = str;
         })
 }
-
+//刪除購物車
 cartList.addEventListener('click', function (e) {
     e.preventDefault();
     const cartId = e.target.getAttribute("data-id");
@@ -127,9 +127,16 @@ cartList.addEventListener('click', function (e) {
             getCartList();
         })
 })
+//刪除全部購物車
+const discardAllbBtn = document.querySelector(".discardAllBtn");
 
-
-
+discardAllbBtn.addEventListener("click",function(e){
+    e.preventDefault();
+    axios.delete(`https://livejs-api.hexschool.io/api/livejs/v1/customer/${api_path}/carts`)
+    .then(function (reponse) {
+        getCartList();
+    })
+})
 
 
 
