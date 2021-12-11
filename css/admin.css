@@ -814,4 +814,9 @@ body {
 .orderTableWrap::-webkit-scrollbar {
     display: none;
 }
-
+.orderPage-title{
+    background: #f8f8f8;
+}
+.orderNum{
+    font-size:0.85em ;
+}

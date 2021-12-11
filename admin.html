@@ -33,20 +33,20 @@
         <a href="#" class="discardAllBtn">清除全部訂單</a>
         <div class="orderTableWrap">
             <table class="orderPage-table">
-                <thead>
+                <thead class="orderPage-title">
                     <tr>
-                        <th>訂單編號</th>
-                        <th>聯絡人</th>
-                        <th>聯絡地址</th>
-                        <th>電子郵件</th>
-                        <th>訂單品項</th>
-                        <th>訂單日期</th>
-                        <th>訂單狀態</th>
-                        <th>操作</th>
+                        <th width=10% >訂單編號</th>
+                        <th width="10%">聯絡人</th>
+                        <th width="20%">聯絡地址</th>
+                        <th width="10%">電子郵件</th>
+                        <th width="20%">訂單品項</th>
+                        <th width="10%">訂單日期</th>
+                        <th width="10%">訂單狀態</th>
+                        <th width="10%">操作</th>
                     </tr>
                 </thead>
                 <tbody class="js-orderList">
-                <tr>
+                <!-- <tr>
                     <td>10088377474</td>
                     <td>
                       <p>小杰</p>
@@ -102,7 +102,7 @@
                     <td>
                         <input type="button" class="delSingleOrder-Btn" value="刪除">
                     </td>
-                </tr>
+                </tr> -->
                 </tbody>
             </table>
         </div>
@@ -157,6 +157,7 @@ let chart = c3.generate({
 });
 
 </script>
+<script src="js/config.js"></script>
 <script src="js/admin.js"></script>
 </body>
 
