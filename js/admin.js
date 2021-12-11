@@ -39,11 +39,11 @@ function getOrdList() {
                 ${productStr}
             </td>
             <td>${item.createdAt}</td>
-            <td class="orderStatus">
-              <a href="#">${orderStatus}</a>
+            <td  js-orderStaus">
+              <a href="#" class="orderStatus" data-id="${item.id}">${orderStatus}</a>
             </td>
             <td>
-              <input type="button" class="delSingleOrder-Btn" data-id="${item.id}" value="刪除">
+              <input type="button" class="delSingleOrder-Btn js-orderDelete" data-id="${item.id}" value="刪除">
             </td>
             </tr>`
             })
@@ -51,3 +51,9 @@ function getOrdList() {
         })
 
 }
+
+orderList.addEventListener('click',function(e){
+    e.preventDefault();
+    const tagetClass = e.target.getAttribute("class");
+    console.log(tagetClass)
+})
