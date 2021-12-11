@@ -6,8 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <!-- <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">   -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">  
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="css/admin.css">
 </head>
@@ -45,6 +45,7 @@
                         <th>操作</th>
                     </tr>
                 </thead>
+                <tbody class="js-orderList">
                 <tr>
                     <td>10088377474</td>
                     <td>
@@ -102,6 +103,7 @@
                         <input type="button" class="delSingleOrder-Btn" value="刪除">
                     </td>
                 </tr>
+                </tbody>
             </table>
         </div>
     </section>
@@ -133,6 +135,27 @@ function menuToggle() {
 function closeMenu() {
     menu.classList.remove('openMenu');
 }
+
+// C3.js
+let chart = c3.generate({
+    bindto: '#chart', // HTML 元素綁定
+    data: {
+        type: "pie",
+        columns: [
+        ['Louvre 雙人床架', 1],
+        ['Antony 雙人床架', 2],
+        ['Anty 雙人床架', 3],
+        ['其他', 4],
+        ],
+        colors:{
+            "Louvre 雙人床架":"#DACBFF",
+            "Antony 雙人床架":"#9D7FEA",
+            "Anty 雙人床架": "#5434A7",
+            "其他": "#301E5F",
+        }
+    },
+});
+
 </script>
 <script src="js/admin.js"></script>
 </body>
