@@ -14,19 +14,23 @@ function getOrdList() {
             orderData = response.data.orders;
             let str = ""
             orderData.forEach(function (item) {
-            //組訂單字串
-            let productStr = ""
-            item.products.forEach(function(productItem){
-                productStr +=`<p>${productItem.title}x${productItem.quantity}</p>`
-            })
-            //判斷訂單處理狀態
-            let orderStatus ="";
-            if(item.paid=="ture"){
-                orderStatus="已處裡"
-            }else{
-                orderStatus="未處裡"
-            }
-            //組產品字串
+                //組時間字串
+                const timeStemp = new Date(item.createdAt * 1000)
+                const orderTime = `${timeStemp.getFullYear()}/${timeStemp.getMonth() + 1}/${timeStemp.getDate()}`
+                //組訂單字串
+                let productStr = ""
+                item.products.forEach(function (productItem) {
+                    if (productItem)
+                        productStr += `<p>${productItem.title}x${productItem.quantity}</p>`
+                })
+                //判斷訂單處理狀態
+                let orderStatus = "";
+                if (item.paid == true) {
+                    orderStatus = "已處裡"
+                } else {
+                    orderStatus = "未處裡"
+                }
+                //組產品字串
                 str += `<tr>
             <td class="orderNum">${item.id}</td>
             <td>
@@ -38,22 +42,105 @@ function getOrdList() {
             <td>
                 ${productStr}
             </td>
-            <td>${item.createdAt}</td>
+            <td>${orderTime}</td>
             <td  js-orderStaus">
-              <a href="#" class="orderStatus" data-id="${item.id}">${orderStatus}</a>
+              <a href="#" data-status="${item.paid}" class="orderStatus" data-id="${item.id}" >${orderStatus}</a>
             </td>
             <td>
               <input type="button" class="delSingleOrder-Btn js-orderDelete" data-id="${item.id}" value="刪除">
             </td>
             </tr>`
             })
-            orderList.innerHTML = str
-        })
 
+            orderList.innerHTML = str
+            renderC3();
+        })
 }
 
-orderList.addEventListener('click',function(e){
+function renderC3() {
+    //物件資料收集
+    let total = {};
+    let chartData = [];
+    orderData.forEach(function (item) {
+        item.products.forEach(function (item) {
+            if (total[item.title] == undefined) {
+                total[item.title] = 1
+            } else {
+                total[item.title] += 1
+            }
+        })
+    })
+    let ary = Object.keys(total)
+    ary.forEach(function (item) {
+        let newAry = [];
+        newAry.push(item)
+        newAry.push(total[item])
+        chartData.push(newAry)
+    })
+
+    // C3.js
+    let chart = c3.generate({
+        bindto: '#chart',
+        data: {
+            type: "pie",
+            columns: chartData,
+        }, color: {
+            pattern: ['#F2E26D', '#FCB172', '#E67497', '#A372FC', '#7FCBF5', '#0468BF', '#668C4A', '#BAB7AC']
+        }, legend: {
+            position: 'inset',
+            inset: {
+                step: 'bottom-left',
+                x: 0,
+                y: 0,
+            }
+        }
+    });
+}
+
+
+orderList.addEventListener('click', function (e) {
     e.preventDefault();
     const tagetClass = e.target.getAttribute("class");
-    console.log(tagetClass)
+    let id = e.target.getAttribute("data-id");
+    if (tagetClass == "delSingleOrder-Btn js-orderDelete") {
+        deletOrderItem(id)
+        return
+    }
+    if (tagetClass == "orderStatus") {
+        let status = e.target.getAttribute("data-status");
+        changeOrderStatus(status, id)
+        return;
+    }
 })
+
+function changeOrderStatus(status, id) {
+    let newStatus;
+    if (status === "true") {
+        newStatus = false;
+    } else {
+        newStatus = true
+    }
+    axios.put(`https://livejs-api.hexschool.io/api/livejs/v1/admin/${api_path}/orders`, {
+        "data": {
+            "id": id,
+            "paid": newStatus
+        }
+    }, {
+        headers: {
+            'Authorization': token,
+        }
+    })
+        .then(function (response) {
+            getOrdList();
+        })
+}
+function deletOrderItem(id) {
+    axios.delete(`https://livejs-api.hexschool.io/api/livejs/v1/admin/${api_path}/orders/${id}`, {
+        headers: {
+            'Authorization': token,
+        }
+    })
+        .then(function (response) {
+            getOrdList();
+        })
+}

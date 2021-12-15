@@ -1,6 +1,8 @@
 const productList = document.querySelector('.productWrap');
 const productSelect = document.querySelector('.productSelect')
 const cartList = document.querySelector('.shoppingCart-tableList');
+const discardAllbBtn = document.querySelector(".discardAllBtn");
+const orderInfoBtn = document.querySelector(".orderInfo-btn");
 let productData = [];
 let cartData = [];
 function init() {
@@ -127,8 +129,6 @@ cartList.addEventListener('click', function (e) {
         })
 })
 //刪除全部購物車
-const discardAllbBtn = document.querySelector(".discardAllBtn");
-
 discardAllbBtn.addEventListener("click", function (e) {
     e.preventDefault();
     axios.delete(`https://livejs-api.hexschool.io/api/livejs/v1/customer/${api_path}/carts`)
@@ -140,7 +140,6 @@ discardAllbBtn.addEventListener("click", function (e) {
         })
 })
 //送出訂單
-const orderInfoBtn = document.querySelector(".orderInfo-btn");
 
 orderInfoBtn.addEventListener("click", function (e) {
     e.preventDefault();
@@ -172,6 +171,7 @@ orderInfoBtn.addEventListener("click", function (e) {
         .then(function (response) {
             alert("訂單建立成功");
             document.querySelector(".orderInfo-form").reset();
+            getCartList();
         })
 
 })
