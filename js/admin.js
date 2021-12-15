@@ -64,20 +64,19 @@ function renderC3() {
     orderData.forEach(function (item) {
         item.products.forEach(function (productItem) {
             if (total[productItem.title] == undefined) {
-                total[productItem.title] = productItem.price*productItem.quantity;
+                total[productItem.title] = productItem.price * productItem.quantity;
             } else {
-                total[productItem.title] += productItem.price*productItem.quantity;
+                total[productItem.title] += productItem.price * productItem.quantity;
             }
         })
     })
     let ary = Object.keys(total)
     ary.forEach(function (item) {
         let newAry = [];
-        newAry.push(item)
+        newAry.push(item +" -加總"+ total[item] + "NT$")
         newAry.push(total[item])
         chartData.push(newAry)
     })
-console.log(chartData)
     // C3.js
     let chart = c3.generate({
         bindto: '#chart',
@@ -88,6 +87,8 @@ console.log(chartData)
             pattern: ['#F2E26D', '#FCB172', '#E67497', '#A372FC', '#7FCBF5', '#0468BF', '#668C4A', '#BAB7AC']
         }, legend: {
             position: 'right',
+        }, tooltip: {
+            show: false
         }
     });
 }
