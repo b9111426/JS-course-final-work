@@ -73,10 +73,25 @@ function renderC3() {
     let ary = Object.keys(total)
     ary.forEach(function (item) {
         let newAry = [];
-        newAry.push(item +" -加總"+ toThousands(total[item]) + "NT$")
+        newAry.push(item)
         newAry.push(total[item])
         chartData.push(newAry)
     })
+    chartData.sort(function(a,b){
+        return b[1]-a[1]
+    })
+
+    if(chartData.length>3){
+        let otherTotal = 0;
+        chartData.forEach(function(item,index){
+            if(index>2){
+                otherTotal += chartData[index][1];
+            }
+        })
+        chartData.splice(3)
+        chartData.push(['其他',otherTotal])
+    }
+
     // C3.js
     let chart = c3.generate({
         bindto: '#chart',
@@ -84,12 +99,8 @@ function renderC3() {
             type: "pie",
             columns: chartData,
         }, color: {
-            pattern: ['#F2E26D', '#FCB172', '#E67497', '#A372FC', '#7FCBF5', '#0468BF', '#668C4A', '#BAB7AC']
-        }, legend: {
-            position: 'right',
-        }, tooltip: {
-            show: false
-        }
+            pattern: ['#F2E26D', '#FCB172', '#E67497', '#A372FC']
+        },
     });
 }
 

@@ -104,7 +104,7 @@ function getCartList() {
             </td>
             <td>NT$${toThousands(item.product.price)}</td>
             <td>${item.quantity}</td>
-            <td>NT${toThousands(item.product.price * item.quantity)}</td>
+            <td>NT$${toThousands(item.product.price * item.quantity)}</td>
             <td class="discardBtn">
                 <a href="#" class="material-icons" data-id="${item.id}">
                     clear
