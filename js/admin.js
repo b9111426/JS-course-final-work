@@ -73,7 +73,7 @@ function renderC3() {
     let ary = Object.keys(total)
     ary.forEach(function (item) {
         let newAry = [];
-        newAry.push(item +" -加總"+ total[item] + "NT$")
+        newAry.push(item +" -加總"+ toThousands(total[item]) + "NT$")
         newAry.push(total[item])
         chartData.push(newAry)
     })

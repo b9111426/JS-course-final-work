@@ -10,7 +10,7 @@ function init() {
     getCartList();
 }
 init();
-
+//渲染產品列表
 function getProductList() {
     axios.get(`https://livejs-api.hexschool.io/api/livejs/v1/customer/${api_path}/products`
     )
@@ -28,8 +28,8 @@ function combineProductHTMLItem(item) {
     <img src=${item.images} alt="">
     <a href="#" class="addCardBtn" data-id="${item.id}">加入購物車</a>
     <h3>${item.title}</h3>
-    <del class="originPrice">NT$${item.origin_price}</del>
-    <p class="nowPrice">NT$${item.price}</p>
+    <del class="originPrice">NT$${toThousands(item.origin_price)}</del>
+    <p class="nowPrice">NT$${toThousands(item.price)}</p>
     </li>`
 }
 function renderProduct() {
@@ -102,9 +102,9 @@ function getCartList() {
                     <p>${item.product.title}</p>
                 </div>
             </td>
-            <td>NT$${item.product.price}</td>
+            <td>NT$${toThousands(item.product.price)}</td>
             <td>${item.quantity}</td>
-            <td>NT${item.product.price * item.quantity}</td>
+            <td>NT${toThousands(item.product.price * item.quantity)}</td>
             <td class="discardBtn">
                 <a href="#" class="material-icons" data-id="${item.id}">
                     clear
@@ -175,7 +175,6 @@ orderInfoBtn.addEventListener("click", function (e) {
         })
 
 })
-
 
 
 
