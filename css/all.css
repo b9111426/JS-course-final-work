@@ -417,7 +417,11 @@ body {
 
 @media (max-width: 767px) {
     .transport li {
+        width: 25%;
         margin-bottom: 20px;
+        margin: 0 1%;
+        align-self: flex-start
+        
     }
 }
 
@@ -439,8 +443,8 @@ body {
     .transport-intro {
         -webkit-box-orient: vertical;
         -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-        flex-direction: column;
+        /* -ms-flex-direction: column;
+        flex-direction: column; */
     }
 }
 
@@ -461,6 +465,7 @@ body {
 
 @media (max-width: 767px) {
     .transport-intro li:nth-child(1)::after, .transport-intro li:nth-child(2)::after, .transport-intro li:nth-child(3)::after {
+        display: none;
         position: static;
         margin-top: 25px;
         border: 10px solid #000000;
@@ -514,8 +519,8 @@ body {
 
 @media (max-width: 767px) {
     .transport-card .cardImg {
-        width: 150px;
-        height: 150px;
+        width: 70px;
+        height: 70px;
     }
 }
 
