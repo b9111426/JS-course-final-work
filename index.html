@@ -433,16 +433,16 @@
         <h3 class="section-title">填寫預訂資料</h3>
         <form action="" class="orderInfo-form">
             <div class="orderInfo-formGroup">
-                <label for="customerName" class="orderInfo-label">姓名</label>
+                <label for="customerName" class="orderInfo-label ">姓名</label>
                 <div class="orderInfo-inputWrap">
-                    <input type="text" class="orderInfo-input" id="customerName" placeholder="請輸入姓名" name="姓名">
+                    <input type="text" class="orderInfo-input " id="customerName" placeholder="請輸入姓名" name="姓名">
                     <p class="messages 姓名"></p>
                 </div>
             </div>
             <div class="orderInfo-formGroup">
                 <label for="customerPhone" class="orderInfo-label">電話</label>
                 <div class="orderInfo-inputWrap">
-                    <input type="tel" class="orderInfo-input" id="customerPhone" placeholder="請輸入電話" name="電話">
+                    <input type="tel" class="orderInfo-input" id="customerPhone" placeholder="請輸入電話 ex:0936123456 或 02-27208889" name="電話">
                     <p class="messages 電話"></p>
                 </div>
             </div>
@@ -456,7 +456,7 @@
             <div class="orderInfo-formGroup">
                 <label for="customerAddress" class="orderInfo-label">寄送地址</label>
                 <div class="orderInfo-inputWrap">
-                    <input type="text" class="orderInfo-input" id="customerAddress" placeholder="請輸入寄送地址" name="寄送地址">
+                    <input type="text" class="orderInfo-input" id="customerAddress" placeholder="請輸入寄送地址 " name="寄送地址">
                     <p class="messages 寄送地址"></p>
                 </div>
             </div>
@@ -464,10 +464,12 @@
                 <label for="tradeWay" class="orderInfo-label">交易方式</label>
                 <div class="orderInfo-inputWrap">
                     <select id="tradeWay" class="orderInfo-input" name="交易方式">
-                        <option value="ATM" selected>ATM</option>
+                        <option value="" selected>--請選擇交易方式--</option>
+                        <option value="ATM">ATM</option>
                         <option value="信用卡">信用卡</option>
                         <option value="超商付款">超商付款</option>
                     </select>
+                    <p class="messages 交易方式"></p>
                 </div>
             </div>
             <input type="submit" value="送出預訂資料" class="orderInfo-btn">

@@ -5,6 +5,7 @@ const discardAllbBtn = document.querySelector('.discardAllBtn');
 const orderInfoBtn = document.querySelector('.orderInfo-btn');
 const form = document.querySelector('.orderInfo-form')
 const inputs = document.querySelectorAll('input[type=text],input[type=email],input[type=tel]')
+const transactSelet = document.querySelector('#tradeWay')
 let productData = [];
 let cartData = [];
 //
@@ -148,68 +149,95 @@ discardAllbBtn.addEventListener("click", function (e) {
 orderInfoBtn.addEventListener("click", function (e) {
 
     e.preventDefault();
-    // if (cartData.length == 0) {
-    //     alert("購物車為空的");
-    //     return;
-    // }
+    if (cartData.length == 0) {
+        alert("購物車為空的");
+        return;
+    }
 
-    //表單驗證
+    表單驗證
     formValidate()
-    // axios.post(`https://livejs-api.hexschool.io/api/livejs/v1/customer/${api_path}/orders`, {
-    //     "data": {
-    //         "user": {
-    //             "name": customerName,
-    //             "tel": customerPhone,
-    //             "email": customerEmail,
-    //             "address": customerAddress,
-    //             "payment": tradeWay
-    //         }
-    //     }
-    // })
-    //     .then(function (response) {
-    //         alert("訂單建立成功");
-    //         document.querySelector(".orderInfo-form").reset();
-    //         getCartList();
-    //     })
+    post資料
+
+    axios.post(`https://livejs-api.hexschool.io/api/livejs/v1/customer/${api_path}/orders`, {
+        "data": {
+            "user": {
+                "name": customerName,
+                "tel": customerPhone,
+                "email": customerEmail,
+                "address": customerAddress,
+                "payment": tradeWay
+            }
+        }
+    })
+        .then(function (response) {
+            alert("訂單建立成功");
+            document.querySelector(".orderInfo-form").reset();
+            getCartList();
+        })
 })
 
-//validate.js
-function formValidate(){
+validate.js
+function formValidate() {
     //驗證條件
     const constraints = {
-        姓名: {
+        姓名:{
             presence: {
-                message: "是必填欄位"
+                message:"是必填欄位"
             },
         },
-        電話: {
-            presence: {
-                message: "是必填欄位"
+        電話:{
+            presence:{
+                message:"是必填欄位"
+            }, length: {
+                minimum: 10,
+                maximum: 11,
+                message:"長度不正確"
+            }, format: {
+                pattern: "[0-9-]+",
+                message:"只能輸入數字"
             },
         },
-        Email: {
+        Email:{
             presence: {
-                message: "是必填欄位"
-            },
+                message:"是必填欄位"
+            }, email: {
+                message:"不是有效信箱"
+            }
         },
-        寄送地址: {
+        寄送地址:{
             presence: {
-                message: "是必填欄位"
+                message:"是必填欄位"
+            },
+        },交易方式:{
+            presence: {
+                message:"是必填欄位"
             },
         }
     };
-    //提示預設
-    inputs.forEach(function(item){
-        item.addEventListener("input",function(){
+    //輸入欄位時，提示還原空字串
+    inputs.forEach(function (item) {
+        item.addEventListener("input", function () {
             item.nextElementSibling.textContent = "";
         })
     })
+    transactSelet.addEventListener("change",function(){
+        transactSelet.nextElementSibling.textContent = "";
+    })
+    
     //驗證
-    let errors = validate(form,constraints)
-    if(errors){
+    let errors = validate(form, constraints)
+    
+    if (errors) {
+        console.log(errors)
         Object.keys(errors).forEach(function (item) {
-            document.querySelector(`.${item}`).textContent = errors[item]
+            //判斷
+            if(errors[item].length>1){
+                document.querySelector(`.${item}`).innerHTML = `<p class="messages ${item}">${errors[item].join("<br>")}</p>`
+            }else{
+                document.querySelector(`.${item}`).innerHTML = `<p class="messages ${item}">${errors[item]}</p>`
+            }
         })
     }
+    return
 }
 

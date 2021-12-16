@@ -863,4 +863,17 @@ body {
 }
 .messages {
     color: red;
+    
+}
+@media(min-width: 768px){
+    .messages {
+        position: absolute;
+        transform:translate(0,-100%);
+        left: 102%;
+        white-space: nowrap;
+    }
+}
+
+.formWarning{
+    border-color: red;
 }
