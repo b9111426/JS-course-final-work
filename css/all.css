@@ -861,3 +861,6 @@ body {
 .shoppingCart-table th{
     text-align: center
 }
+.messages {
+    color: red;
+}
