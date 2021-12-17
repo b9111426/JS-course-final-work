@@ -875,5 +875,5 @@ body {
 }
 
 .formWarning{
-    border-color: red;
+    border-color: red!important;
 }
